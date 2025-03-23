@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Test Category",
+    "description": "Test Description",
+    "products": [
+      {
+        "name": "Test Product",
+        "description": "Test Product Desc",
+        "price": 100.0,
+        "quantity": 10
+      }
+    ]
+  }
+]
