@@ -1,7 +1,6 @@
 # main.py
-from src.product import Product
 from src.category import Category
-from src.utils import create_categories_from_file
+from src.product import Product
 
 if __name__ == "__main__":
     # Тест 1: Ручное создание продуктов и категории
@@ -15,24 +14,21 @@ if __name__ == "__main__":
     category1.add_product(product3)
 
     print("Тест 1: Ручное создание категории")
-    print(category1.products)
+    print(category1)  # Используем __str__
 
     # Тест 2: Добавление продукта
     product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
     category1.add_product(product4)
     print("\nТест 2: После добавления продукта")
-    print(category1.products)
-    print(f"Количество продуктов: {category1.product_count}")
+    print(category1)
+    print(f"Количество продуктов (по списку): {category1.product_count}")
 
     # Тест 3: Метод new_product
     new_product = Product.new_product(
         {"name": "Samsung Galaxy S23 Ultra", "description": "256GB, Серый цвет, 200MP камера", "price": 180000.0, "quantity": 5}
     )
     print("\nТест 3: Создание продукта через new_product")
-    print(new_product.name)
-    print(new_product.description)
-    print(new_product.price)
-    print(new_product.quantity)
+    print(new_product)  # Используем __str__
 
     # Тест 4: Проверка сеттера цены
     print("\nТест 4: Проверка сеттера цены")
@@ -43,8 +39,14 @@ if __name__ == "__main__":
     new_product.price = 0
     print(new_product.price)  # Ожидаем "Цена не должна..." и 800
 
-    # Тест 5: Создание категорий из файла (если есть data.json)
-    # print("\nТест 5: Создание категорий из файла")
+    # Тест 5: Сложение продуктов
+    print("\nТест 5: Сложение продуктов")
+    print(f"product1 + product2 = {product1 + product2}")
+    print(f"product1 + product3 = {product1 + product3}")
+    print(f"product2 + product3 = {product2 + product3}")
+
+    # Тест 6: Создание категорий из файла (раскомментируйте, если есть data.json)
+    # print("\nТест 6: Создание категорий из файла")
     # categories = create_categories_from_file("data.json")
     # for cat in categories:
-    #     print(cat.products)
+    #     print(cat)
