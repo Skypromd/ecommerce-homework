@@ -17,10 +17,13 @@ def test_add_product(sample_category, sample_product):
 
 def test_products_property(sample_category, sample_product):
     sample_category.add_product(sample_product)
-    expected_output = "Test Product, 1000.0 руб. Остаток: 10 шт."
-    assert sample_category.products == expected_output
+    assert sample_category.products == "Test Product, 1000.0 руб. Остаток: 10 шт."
 
 def test_counter_increment(sample_category, sample_product):
     initial_counter = Category.counter
     sample_category.add_product(sample_product)
     assert Category.counter == initial_counter + 1
+
+def test_str(sample_category, sample_product):
+    sample_category.add_product(sample_product)
+    assert str(sample_category) == "Test Category, количество продуктов: 10 шт."
