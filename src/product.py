@@ -1,9 +1,63 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class BaseProduct(ABC):
+    @abstractmethod
     def __init__(self, name, description, price, quantity):
-        self.name = name
-        self.description = description
+        pass
+
+    @property
+    @abstractmethod
+    def name(self):
+        pass
+
+    @property
+    @abstractmethod
+    def description(self):
+        pass
+
+    @property
+    @abstractmethod
+    def price(self):
+        pass
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+    @abstractmethod
+    def __add__(self, other):
+        pass
+
+
+class LogMixin:
+    def __init__(self, *args, **kwargs):
+        print(
+            f"Создан объект класса {self.__class__.__name__} "
+            f"с параметрами: {args}, {kwargs}"
+        )
+        super().__init__(*args, **kwargs)
+
+
+class Product(LogMixin, BaseProduct):
+    def __init__(self, name, description, price, quantity):
+        if quantity <= 0:
+            raise ValueError(
+                "Товар с нулевым количеством не может быть добавлен"
+            )
+        super().__init__(name, description, price=price, quantity=quantity)
+        self._name = name
+        self._description = description
         self._price = price
         self.quantity = quantity
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def description(self):
+        return self._description
 
     @property
     def price(self):
@@ -17,7 +71,9 @@ class Product:
     @price.setter
     def price(self, value):
         if value <= 0:
-            print("Цена не должна быть отрицательной или равной нулю")
+            print(
+                "Цена не должна быть отрицательной или равной нулю"
+            )
         else:
             self._price = value
 
@@ -45,8 +101,8 @@ class Product:
 
 
 class Smartphone(Product):
-    def __init__(self, name, description, price, quantity,
-                 efficiency, model, memory, color):
+    def __init__(self, name, description, price, quantity, efficiency,
+                 model, memory, color):
         super().__init__(name, description, price, quantity)
         self.efficiency = efficiency
         self.model = model
@@ -83,7 +139,8 @@ class LawnGrass(Product):
             price=product_data["price"],
             quantity=product_data["quantity"],
             country=product_data.get("country", "Unknown"),
-            germination_period=product_data.get("germination_period",
-                                                "Unknown"),
+            germination_period=product_data.get(
+                "germination_period", "Unknown"
+            ),
             color=product_data.get("color", "Unknown")
         )

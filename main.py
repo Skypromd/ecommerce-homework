@@ -1,109 +1,104 @@
-from src.product import Smartphone, LawnGrass
+from src.product import Product, Smartphone, LawnGrass
 from src.category import Category
 from src.utils import create_categories_from_file
+from src.order import Order
 
 
-def print_product_details(product):
-    print(f"  Название: {product.name}")
-    print(f"  Описание: {product.description}")
-    print(f"  Цена: {product.price}")
-    print(f"  Количество: {product.quantity}")
-    if isinstance(product, Smartphone):
-        print(f"  Производительность: {product.efficiency}")
-        print(f"  Модель: {product.model}")
-        print(f"  Память: {product.memory}")
-        print(f"  Цвет: {product.color}")
-    elif isinstance(product, LawnGrass):
-        print(f"  Страна: {product.country}")
-        print(f"  Срок прорастания: {product.germination_period}")
-        print(f"  Цвет: {product.color}")
+def print_product_details(prod):
+    print(f"  Название: {prod.name}")
+    print(f"  Описание: {prod.description}")
+    print(f"  Цена: {prod.price}")
+    print(f"  Количество: {prod.quantity}")
+    if isinstance(prod, Smartphone):
+        print(f"  Производительность: {prod.efficiency}")
+        print(f"  Модель: {prod.model}")
+        print(f"  Память: {prod.memory}")
+        print(f"  Цвет: {prod.color}")
+    elif isinstance(prod, LawnGrass):
+        print(f"  Страна: {prod.country}")
+        print(f"  Срок прорастания: {prod.germination_period}")
+        print(f"  Цвет: {prod.color}")
 
 
 if __name__ == "__main__":
-    # Создание смартфонов
-    smartphone1 = Smartphone(
-        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера",
-        180000.0, 5, 95.5, "S23 Ultra", 256, "Серый"
-    )
-    smartphone2 = Smartphone(
-        "Iphone 15", "512GB, Gray space", 210000.0, 8, 98.2, "15", 512,
-        "Gray space"
-    )
-    smartphone3 = Smartphone(
-        "Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14, 90.3,
-        "Note 11", 1024, "Синий"
-    )
-
-    # Вывод атрибутов смартфонов
-    print("Смартфоны:")
-    print_product_details(smartphone1)
-    print()
-    print_product_details(smartphone2)
-    print()
-    print_product_details(smartphone3)
-
-    # Создание газонной травы
-    grass1 = LawnGrass(
-        "Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия",
-        "7 дней", "Зеленый"
-    )
-    grass2 = LawnGrass(
-        "Газонная трава 2", "Выносливая трава", 450.0, 15, "США", "5 дней",
-        "Темно-зеленый"
-    )
-
-    # Вывод атрибутов газонной травы
-    print("\nГазонная трава:")
-    print_product_details(grass1)
-    print()
-    print_product_details(grass2)
-
-    # Проверка сложения
-    print("\nСложение:")
-    smartphone_sum = smartphone1 + smartphone2
-    print(smartphone_sum)
-    grass_sum = grass1 + grass2
-    print(grass_sum)
-
+    # Проверка обработки нулевого количества
     try:
-        invalid_sum = smartphone1 + grass1
-    except TypeError:
-        print("Возникла ошибка TypeError при попытке сложения")
+        product_invalid = Product(
+            "Бракованный товар", "Неверное количество", 1000.0, 0
+        )
+    except ValueError as e:
+        print(
+            "Возникла ошибка ValueError при попытке добавить продукт с "
+            f"нулевым количеством: {e}"
+        )
     else:
-        print("Не возникла ошибка TypeError при попытке сложения")
+        print(
+            "Не возникла ошибка ValueError при попытке добавить продукт с "
+            "нулевым количеством"
+        )
 
-    # Создание категорий вручную
-    category_smartphones = Category(
-        "Смартфоны", "Высокотехнологичные смартфоны",
-        [smartphone1, smartphone2]
+    # Создание продуктов
+    product1 = Product(
+        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера",
+        180000.0, 5
     )
-    category_grass = Category(
-        "Газонная трава", "Различные виды газонной травы", [grass1, grass2]
-    )
+    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 
-    # Добавление продукта
-    category_smartphones.add_product(smartphone3)
+    # Создание категории смартфонов
+    category1 = Category(
+        "Смартфоны",
+        "Смартфоны, как средство не только коммуникации, "
+        "но и получения дополнительных функций для удобства жизни",
+        [product1, product2, product3]
+    )
 
     # Вывод информации о категории
     print("\nКатегория смартфонов:")
-    print(f"  {category_smartphones}")
-    for item in category_smartphones.products:
-        print_product_details(item)
+    print(f"  {category1}")
+    print(f"  Средняя цена: {category1.middle_price():.2f} руб.")
+    for prod in category1.products:
+        print_product_details(prod)
         print()
 
-    # Проверка ограничения добавления
-    try:
-        category_smartphones.add_product("Not a product")
-    except ValueError:
-        print("Возникла ошибка ValueError при добавлении не продукта")
-    else:
-        print("Не возникла ошибка ValueError при добавлении не продукта")
+    # Создание пустой категории
+    category_empty = Category(
+        "Пустая категория", "Категория без продуктов", []
+    )
+    print("\nПустая категория:")
+    print(f"  {category_empty}")
+    print(f"  Средняя цена: {category_empty.middle_price():.2f} руб.")
 
-    # Использование create_categories_from_file
+    # Создание категории телевизоров
+    product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
+    category2 = Category(
+        "Телевизоры",
+        "Современный телевизор, который позволяет наслаждаться просмотром, "
+        "станет вашим другом и помощником",
+        [product4]
+    )
+
+    # Вывод информации о категории телевизоров
+    print("\nКатегория телевизоров:")
+    print(f"  {category2}")
+    print(f"  Средняя цена: {category2.middle_price():.2f} руб.")
+    for prod in category2.products:
+        print_product_details(prod)
+        print()
+
+    # Демонстрация загрузки из data.json
     print("\nКатегории из файла data.json:")
     categories = create_categories_from_file("data.json")
     for category in categories:
         print(f"  {category}")
-        for item in category.products:
-            print_product_details(item)
+        print(f"  Средняя цена: {category.middle_price():.2f} руб.")
+        for prod in category.products:
+            print_product_details(prod)
             print()
+
+    # Демонстрация класса Order
+    print("\nЗаказы:")
+    order1 = Order("Заказ 1", "Покупка смартфона", product1, 2)
+    print(order1)
+    order2 = Order("Заказ 2", "Покупка телевизора", product4, 1)
+    print(order2)
