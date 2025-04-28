@@ -1,25 +1,24 @@
 from src.product import Product
 
-class Category:
-    counter = 0
 
-    def __init__(self, name):
+class Category:
+    def __init__(self, name, description="", products=None):
         self.name = name
-        self.__products = []
+        self.description = description
+        self.products = products if products is not None else []
 
     def add_product(self, product):
-        if isinstance(product, Product):
-            self.__products.append(product)
-            Category.counter += 1
-
-    @property
-    def products(self):
-        return "\n".join(str(product) for product in self.__products)
+        if not isinstance(product, Product):
+            raise ValueError(
+                "Можно добавлять только объекты класса Product или "
+                "его наследников"
+            )
+        self.products.append(product)
 
     @property
     def product_count(self):
-        return len(self.__products)
+        return len(self.products)
 
     def __str__(self):
-        total_quantity = sum(product.quantity for product in self.__products)
+        total_quantity = sum(product.quantity for product in self.products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
