@@ -16,8 +16,13 @@ class Order(BaseEntity):
             )
         if quantity <= 0:
             raise ZeroQuantityError(
+<<<<<<< HEAD
                 "Товар с нулевым количеством не может быть "
                 "добавлен в заказ"
+=======
+                "Товар с нулевым количеством не может быть добавлен "
+                "в заказ"
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
             )
         self._name = name
         self._description = description
