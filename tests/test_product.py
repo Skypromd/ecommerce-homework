@@ -21,6 +21,7 @@ def test_new_product():
     assert new_product.quantity == 3
 
 
+<<<<<<< HEAD
 def test_new_product_empty_description():
     product_dict = {
         "name": "Minimal",
@@ -41,6 +42,13 @@ def test_zero_quantity():
     assert "Товар с нулевым количеством не может быть добавлен" in str(
         exc_info.value
     )
+=======
+def test_zero_quantity():
+    with pytest.raises(ValueError) as exc_info:
+        Product("Invalid", "Desc", 1000.0, 0)
+    assert ("Товар с нулевым количеством не может быть "
+            "добавлен") in str(exc_info.value)
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 
 
 def test_price_setter(sample_product, capsys):
@@ -64,6 +72,7 @@ def test_price_setter_zero(sample_product, capsys):
     assert sample_product.price == 1000.0
 
 
+<<<<<<< HEAD
 def test_price_setter_negative(sample_product, capsys):
     sample_product.price = -100
     captured = capsys.readouterr()
@@ -71,6 +80,8 @@ def test_price_setter_negative(sample_product, capsys):
     assert sample_product.price == 1000.0
 
 
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 def test_str(sample_product):
     assert str(sample_product) == "Test Product, 1000.0 руб. Остаток: 10 шт."
 
@@ -121,7 +132,11 @@ def test_smartphone_new_product():
         "efficiency": 90.0,
         "model": "X",
         "memory": 128,
+<<<<<<< HEAD
         "color": "Black"
+=======
+        "color": "Black",
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
     }
     new_product = Smartphone.new_product(product_dict)
     assert new_product.name == "Test Smartphone"
@@ -142,7 +157,11 @@ def test_lawngrass_new_product():
         "quantity": 10,
         "country": "Russia",
         "germination_period": "7 days",
+<<<<<<< HEAD
         "color": "Green"
+=======
+        "color": "Green",
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
     }
     new_product = LawnGrass.new_product(product_dict)
     assert new_product.name == "Test Grass"
@@ -197,10 +216,31 @@ def test_log_mixin_lawngrass(capsys):
     assert grass.color == "Green"
 
 
+<<<<<<< HEAD
+=======
+def test_new_product_minimal():
+    product_dict = {"name": "Minimal", "description": "",
+                    "price": 100.0, "quantity": 1}
+    new_product = Product.new_product(product_dict)
+    assert new_product.name == "Minimal"
+    assert new_product.description == ""
+    assert new_product.price == 100.0
+    assert new_product.quantity == 1
+
+
+def test_add_zero_quantity():
+    with pytest.raises(ValueError) as exc_info:
+        Product("P1", "Desc1", 100, 0)
+    assert ("Товар с нулевым количеством не может "
+            "быть добавлен") in str(exc_info.value)
+
+
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 def test_add_zero_price():
     p1 = Product("P1", "Desc1", 0, 10)
     p2 = Product("P2", "Desc2", 0, 2)
     assert p1 + p2 == 0
+<<<<<<< HEAD
 
 
 def test_smartphone_attributes():
@@ -243,3 +283,5 @@ def test_lawngrass_new_product_empty_fields():
     assert new_product.country == "Unknown"
     assert new_product.germination_period == "Unknown"
     assert new_product.color == "Unknown"
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
