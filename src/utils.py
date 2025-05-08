@@ -31,8 +31,12 @@ def create_categories_from_file(file_path):
             products.append(product)
 
         category = Category(
+<<<<<<< HEAD
+            category_data['name'], category_data.get('description', '')
+=======
             category_data['name'],
             category_data.get('description', '')
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
         )
         for product in products:
             category.add_product(product)

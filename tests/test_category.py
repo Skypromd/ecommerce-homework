@@ -3,6 +3,16 @@ from src.category import Category
 from src.product import Product
 
 
+<<<<<<< HEAD
+@pytest.fixture(autouse=True)
+def reset_category_counters():
+    Category.category_count = 0
+    Category.total_product_count = 0
+    yield
+
+
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 @pytest.fixture
 def sample_category():
     return Category("Test Category")
@@ -17,6 +27,10 @@ def test_add_product(sample_category, sample_product, capsys):
     sample_category.add_product(sample_product)
     assert sample_product in sample_category.products
     assert sample_category.product_count == 1
+<<<<<<< HEAD
+    assert Category.total_product_count == 1
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
     captured = capsys.readouterr()
     assert "Товар 'Test Product' успешно добавлен в категорию" in captured.out
     assert "Обработка добавления товара завершена" in captured.out
@@ -30,11 +44,20 @@ def test_add_product_invalid_type(sample_category, capsys):
         "его наследников" in captured.out
     )
     assert "Обработка добавления товара завершена" in captured.out
+<<<<<<< HEAD
+    assert sample_category.product_count == 0
+    assert Category.total_product_count == 0
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 
 
 def test_add_product_zero_quantity(sample_category, capsys):
     product_zero = Product("Zero Product", "Desc", 1000.0, 1)
+<<<<<<< HEAD
+    product_zero.quantity = 0
+=======
     product_zero.quantity = 0  # Изменяем количество после создания
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
     sample_category.add_product(product_zero)
     captured = capsys.readouterr()
     assert (
@@ -42,9 +65,17 @@ def test_add_product_zero_quantity(sample_category, capsys):
         "в категорию" in captured.out
     )
     assert "Обработка добавления товара завершена" in captured.out
+<<<<<<< HEAD
+    assert sample_category.product_count == 0
+    assert Category.total_product_count == 0
+
+
+def test_add_product_invalid_type_message(sample_category, capsys):
+=======
 
 
 def test_add_product_invalid_type_detailed(sample_category, capsys):
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
     sample_category.add_product("Invalid")
     captured = capsys.readouterr()
     assert (
@@ -52,6 +83,11 @@ def test_add_product_invalid_type_detailed(sample_category, capsys):
         "его наследников" in captured.out
     )
     assert "Обработка добавления товара завершена" in captured.out
+<<<<<<< HEAD
+    assert sample_category.product_count == 0
+    assert Category.total_product_count == 0
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 
 
 def test_product_count(sample_category, sample_product):
@@ -59,6 +95,10 @@ def test_product_count(sample_category, sample_product):
     assert sample_category.product_count == 1
     sample_category.add_product(Product("Another", "Desc", 200.0, 5))
     assert sample_category.product_count == 2
+<<<<<<< HEAD
+    assert Category.total_product_count == 2
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 
 
 def test_str(sample_category, sample_product):
@@ -71,17 +111,30 @@ def test_empty_category():
     category = Category("Empty Category", "No products")
     assert category.product_count == 0
     assert str(category) == "Empty Category, количество продуктов: 0 шт."
+<<<<<<< HEAD
+    assert Category.total_product_count == 0
+    assert category.category_count == 1
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 
 
 def test_add_multiple_products(sample_category, sample_product):
     sample_category.add_product(sample_product)
     sample_category.add_product(Product("Another", "Desc", 200.0, 5))
     assert sample_category.product_count == 2
+<<<<<<< HEAD
+    assert Category.total_product_count == 2
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 
 
 def test_category_properties(sample_category):
     assert sample_category.name == "Test Category"
     assert sample_category.description == ""
+<<<<<<< HEAD
+    assert sample_category.category_count == 1
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 
 
 def test_middle_price(sample_category, sample_product):
@@ -94,8 +147,49 @@ def test_middle_price_empty(sample_category):
     assert sample_category.middle_price() == 0
 
 
+<<<<<<< HEAD
+def test_middle_price_single_product(sample_category, sample_product):
+    sample_category.add_product(sample_product)
+    assert sample_category.middle_price() == 1000.0
+
+
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
 def test_str_multiple_products(sample_category, sample_product):
     sample_category.add_product(sample_product)
     sample_category.add_product(Product("Another", "Desc", 200.0, 5))
     expected = "Test Category, количество продуктов: 15 шт."
     assert str(sample_category) == expected
+<<<<<<< HEAD
+
+
+def test_middle_price_main_scenario():
+    # Проверка middle_price для сценария из main.py
+    product1 = Product(
+        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера",
+        180000.0, 5
+    )
+    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+    category = Category(
+        "Смартфоны", "Категория смартфонов", [product1, product2, product3]
+    )
+    assert category.middle_price() == (180000.0 + 210000.0 + 31000.0) / 3
+
+
+def test_total_product_count():
+    # Проверка total_product_count
+    product1 = Product(
+        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера",
+        180000.0, 5
+    )
+    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+    _ = Category(
+        "Смартфоны", "Категория смартфонов", [product1, product2, product3]
+    )
+    product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
+    _ = Category("Телевизоры", "Телевизоры", [product4])
+    assert Category.total_product_count == 4
+=======
+>>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
