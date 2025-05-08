@@ -9,6 +9,7 @@ class ZeroQuantityError(Exception):
 class BaseEntity(ABC):
     @abstractmethod
     def __init__(self, name, description):
+        _ = name, description  # Заглушка для подавления предупреждений
         pass
 
     @property
@@ -23,10 +24,15 @@ class BaseEntity(ABC):
 
 
 class Category(BaseEntity):
+    category_count = 0
+    total_product_count = 0
+
     def __init__(self, name, description="", products=None):
         self._name = name
         self._description = description
         self.products = products if products is not None else []
+        Category.category_count += 1
+        Category.total_product_count += len(self.products)
 
     @property
     def name(self):
@@ -35,6 +41,10 @@ class Category(BaseEntity):
     @property
     def description(self):
         return self._description
+
+    @property
+    def product_count(self):
+        return len(self.products)
 
     def add_product(self, product):
         print("Начало обработки добавления товара")
@@ -50,15 +60,12 @@ class Category(BaseEntity):
                     "в категорию"
                 )
             self.products.append(product)
+            Category.total_product_count += 1
             print(f"Товар '{product.name}' успешно добавлен в категорию")
         except (ValueError, ZeroQuantityError) as e:
             print(f"Ошибка: {e}")
         finally:
             print("Обработка добавления товара завершена")
-
-    @property
-    def product_count(self):
-        return len(self.products)
 
     def middle_price(self):
         try:

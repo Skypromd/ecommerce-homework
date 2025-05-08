@@ -31,8 +31,7 @@ def create_categories_from_file(file_path):
             products.append(product)
 
         category = Category(
-            category_data['name'],
-            category_data.get('description', '')
+            category_data['name'], category_data.get('description', '')
         )
         for product in products:
             category.add_product(product)

@@ -21,11 +21,26 @@ def test_new_product():
     assert new_product.quantity == 3
 
 
+def test_new_product_empty_description():
+    product_dict = {
+        "name": "Minimal",
+        "description": "",
+        "price": 100.0,
+        "quantity": 1
+    }
+    new_product = Product.new_product(product_dict)
+    assert new_product.name == "Minimal"
+    assert new_product.description == ""
+    assert new_product.price == 100.0
+    assert new_product.quantity == 1
+
+
 def test_zero_quantity():
     with pytest.raises(ValueError) as exc_info:
         Product("Invalid", "Desc", 1000.0, 0)
-    assert ("Товар с нулевым количеством не может быть "
-            "добавлен") in str(exc_info.value)
+    assert "Товар с нулевым количеством не может быть добавлен" in str(
+        exc_info.value
+    )
 
 
 def test_price_setter(sample_product, capsys):
@@ -44,6 +59,13 @@ def test_price_setter_valid(sample_product):
 
 def test_price_setter_zero(sample_product, capsys):
     sample_product.price = 0
+    captured = capsys.readouterr()
+    assert "Цена не должна быть отрицательной или равной нулю" in captured.out
+    assert sample_product.price == 1000.0
+
+
+def test_price_setter_negative(sample_product, capsys):
+    sample_product.price = -100
     captured = capsys.readouterr()
     assert "Цена не должна быть отрицательной или равной нулю" in captured.out
     assert sample_product.price == 1000.0
@@ -99,7 +121,7 @@ def test_smartphone_new_product():
         "efficiency": 90.0,
         "model": "X",
         "memory": 128,
-        "color": "Black",
+        "color": "Black"
     }
     new_product = Smartphone.new_product(product_dict)
     assert new_product.name == "Test Smartphone"
@@ -120,7 +142,7 @@ def test_lawngrass_new_product():
         "quantity": 10,
         "country": "Russia",
         "germination_period": "7 days",
-        "color": "Green",
+        "color": "Green"
     }
     new_product = LawnGrass.new_product(product_dict)
     assert new_product.name == "Test Grass"
@@ -175,24 +197,49 @@ def test_log_mixin_lawngrass(capsys):
     assert grass.color == "Green"
 
 
-def test_new_product_minimal():
-    product_dict = {"name": "Minimal", "description": "",
-                    "price": 100.0, "quantity": 1}
-    new_product = Product.new_product(product_dict)
-    assert new_product.name == "Minimal"
-    assert new_product.description == ""
-    assert new_product.price == 100.0
-    assert new_product.quantity == 1
-
-
-def test_add_zero_quantity():
-    with pytest.raises(ValueError) as exc_info:
-        Product("P1", "Desc1", 100, 0)
-    assert ("Товар с нулевым количеством не может "
-            "быть добавлен") in str(exc_info.value)
-
-
 def test_add_zero_price():
     p1 = Product("P1", "Desc1", 0, 10)
     p2 = Product("P2", "Desc2", 0, 2)
     assert p1 + p2 == 0
+
+
+def test_smartphone_attributes():
+    smartphone = Smartphone("S1", "Desc1", 100.0, 2, 90.0, "X", 64, "Blue")
+    assert smartphone.efficiency == 90.0
+    assert smartphone.model == "X"
+    assert smartphone.memory == 64
+    assert smartphone.color == "Blue"
+
+
+def test_lawngrass_attributes():
+    grass = LawnGrass("G1", "Desc1", 50.0, 2, "Russia", "7 days", "Green")
+    assert grass.country == "Russia"
+    assert grass.germination_period == "7 days"
+    assert grass.color == "Green"
+
+
+def test_smartphone_new_product_empty_fields():
+    product_dict = {
+        "name": "Test Smartphone",
+        "description": "Test Desc",
+        "price": 1000.0,
+        "quantity": 5
+    }
+    new_product = Smartphone.new_product(product_dict)
+    assert new_product.efficiency == 0.0
+    assert new_product.model == "Unknown"
+    assert new_product.memory == 0
+    assert new_product.color == "Unknown"
+
+
+def test_lawngrass_new_product_empty_fields():
+    product_dict = {
+        "name": "Test Grass",
+        "description": "Test Desc",
+        "price": 200.0,
+        "quantity": 10
+    }
+    new_product = LawnGrass.new_product(product_dict)
+    assert new_product.country == "Unknown"
+    assert new_product.germination_period == "Unknown"
+    assert new_product.color == "Unknown"

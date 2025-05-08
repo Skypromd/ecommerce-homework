@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 class BaseProduct(ABC):
     @abstractmethod
     def __init__(self, name, description, price, quantity):
+        _ = name, description, price, quantity  # Заглушка для параметров
         pass
 
     @property
@@ -61,19 +62,12 @@ class Product(LogMixin, BaseProduct):
 
     @property
     def price(self):
-        """Возвращает текущую цену продукта.
-
-        Returns:
-            float: Цена продукта в рублях.
-        """
         return self._price
 
     @price.setter
     def price(self, value):
         if value <= 0:
-            print(
-                "Цена не должна быть отрицательной или равной нулю"
-            )
+            print("Цена не должна быть отрицательной или равной нулю")
         else:
             self._price = value
 
@@ -101,8 +95,8 @@ class Product(LogMixin, BaseProduct):
 
 
 class Smartphone(Product):
-    def __init__(self, name, description, price, quantity, efficiency,
-                 model, memory, color):
+    def __init__(self, name, description, price, quantity, efficiency, model,
+                 memory, color):
         super().__init__(name, description, price, quantity)
         self.efficiency = efficiency
         self.model = model
