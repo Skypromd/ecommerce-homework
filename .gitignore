@@ -1,13 +1,7 @@
 .idea/
-<<<<<<< HEAD
+.venv/
 .coverage
 __pycache__/
 *.pyc
 .mypy_cache/
 .pytest_cache/
-=======
-.idea/
-.idea/
-.coverage
-__pycache__/
->>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
