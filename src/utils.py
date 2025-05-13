@@ -14,13 +14,13 @@ def create_categories_from_file(file_path):
     Returns:
         list: Список объектов Category с продуктами.
     """
-    with open(file_path, 'r', encoding='utf-8') as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
     categories = []
     for category_data in data:
         products = []
-        for product_data in category_data['products']:
+        for product_data in category_data["products"]:
             product_type = product_data.get("type", "Product")
             if product_type == "Smartphone":
                 product = Smartphone.new_product(product_data)
@@ -30,14 +30,7 @@ def create_categories_from_file(file_path):
                 product = Product.new_product(product_data)
             products.append(product)
 
-        category = Category(
-<<<<<<< HEAD
-            category_data['name'], category_data.get('description', '')
-=======
-            category_data['name'],
-            category_data.get('description', '')
->>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
-        )
+        category = Category(category_data["name"], category_data.get("description", ""))
         for product in products:
             category.add_product(product)
         categories.append(category)
