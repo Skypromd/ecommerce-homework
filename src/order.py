@@ -11,18 +11,11 @@ class Order(BaseEntity):
         super().__init__(name, description)
         if not isinstance(product, BaseProduct):
             raise ValueError(
-                "В заказе должен быть объект класса Product или "
-                "его наследников"
+                "В заказе должен быть объект класса Product или " "его наследников"
             )
         if quantity <= 0:
             raise ZeroQuantityError(
-<<<<<<< HEAD
-                "Товар с нулевым количеством не может быть "
-                "добавлен в заказ"
-=======
-                "Товар с нулевым количеством не может быть добавлен "
-                "в заказ"
->>>>>>> 642f89ce80d8db31d33a4c99a66dee00e8899ae7
+                "Товар с нулевым количеством не может быть " "добавлен в заказ"
             )
         self._name = name
         self._description = description
